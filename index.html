@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Vendas</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Adicionando Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="controls-container">
+        <h1>Dashboard de Vendas Comparativo</h1>
+        
+        <div class="file-inputs">
+            <div class="file-input-group">
+                <label for="file2024">Arquivo Ano Anterior (Ex: 2024)</label>
+                <input type="file" id="file2024" accept=".json">
+            </div>
+            <div class="file-input-group">
+                <label for="file2025">Arquivo Ano Atual (Ex: 2025)</label>
+                <input type="file" id="file2025" accept=".json">
+            </div>
+        </div>
+        <button id="loadAndProcessButton">Gerar Dashboard</button>
+        
+        <!-- Indicador de carregamento -->
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processando dados...</p>
+        </div>
+
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="vendedorFilter">Filtrar por Vendedor</label>
+                <select id="vendedorFilter" disabled></select>
+            </div>
+            <div class="filter-group">
+                <label for="grupoFilter">Filtrar por Grupo</label>
+                <select id="grupoFilter" disabled></select>
+            </div>
+            <button id="clearFiltersButton" disabled>Limpar Filtros</button>
+        </div>
+    </div>
+
+    <div class="container" id="dashboardContainer" style="display: none;">
+        <h2>KPIs Principais (Atual vs Anterior)</h2>
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <h3>Faturamento Total</h3>
+                <p class="kpi-value" id="fat-2025">R$ 0,00</p>
+                <p class="kpi-comp" id="fat-2024">R$ 0,00 (Anterior)</p>
+                <p class="kpi-delta" id="fat-delta">0%</p>
+            </div>
+            <div class="kpi-card">
+                <h3>Quantidade Vendida</h3>
+                <p class="kpi-value" id="qtde-2025">0</p>
+                <p class="kpi-comp" id="qtde-2024">0 (Anterior)</p>
+                <p class="kpi-delta" id="qtde-delta">0%</p>
+            </div>
+            <div class="kpi-card">
+                <h3>Atendimento da Meta (QTDE)</h3>
+                <p class="kpi-value" id="meta-2025">0,0%</p>
+                <p class="kpi-comp" id="meta-2024">0,0% (Anterior)</p>
+                <p class="kpi-delta" id="meta-delta">0.0 pp</p>
+            </div>
+        </div>
+        
+        <!-- Área de gráficos -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <h3>Comparativo de Faturamento</h3>
+                <canvas id="fatChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Comparativo de Quantidade</h3>
+                <canvas id="qtdeChart"></canvas>
+            </div>
+        </div>
+        
+        <h2>Análises Detalhadas</h2>
+        
+        <div class="data-container">
+            <h3>Comparativo por Vendedor</h3>
+            <div id="vendedorTableContainer"></div>
+        </div>
+        
+        <div class="data-container">
+            <h3>Comparativo por Grupo de Produto</h3>
+            <div id="produtoTableContainer"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
